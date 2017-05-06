@@ -4,6 +4,8 @@ from threading import Thread
 
 from pyaudio import *
 
+SILENCE = b'\x80'
+CHUNK = 1024
 SPACING = 10  # Space between two sounds
 
 DEFAULT_WIDTH = 1  # 8bits
@@ -60,7 +62,12 @@ class SoundFactory(object):
     @staticmethod
     def get_noise_sound(frequency, volume):
         return Sound(frequency,
-                     lambda t: volume * random.choice([-1, 1]))
+                     lambda t: volume * -1 * (random.choice([0, 1])) * random.random())
+
+    @staticmethod
+    def get_silence_sound(frequency, volume):
+        return Sound(frequency,
+                     lambda t: 0)
 
 
 class SoundPlayer(object):
@@ -78,7 +85,15 @@ class SoundPlayer(object):
         return SAMPLE_RATE
 
     def play_sounds(self, sound_list, duration=1):
+        if len(sound_list) > self.number_of_channels:
+            print("[Warning] - More sounds than channels", file=sys.stderr, flush=True)
+
         samples = [sound._get_samples(duration) for sound in sound_list]
+
+        silence = SoundFactory.get_silence_sound(0, 0)
+        silence_fill = silence._get_samples(duration)
+        while len(samples) < self.number_of_channels:  # This fixes underrun
+            samples.append(silence_fill)
 
         threads = [
             Thread(target=self.channels[i].write, args=(samples[i],))
