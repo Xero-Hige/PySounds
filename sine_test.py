@@ -14,8 +14,6 @@ AM = pysounds.SoundFactory.get_sine_sound(880.00, 0.1)
 Gm = pysounds.SoundFactory.get_sine_sound(392.00, 0.1)
 Em = pysounds.SoundFactory.get_sine_sound(329.63, 0.1)
 
-Drum = pysounds.SoundFactory.get_noise_sound(150, 0.1)
-
 tempo = 0.1
 sp.play_sounds([E, B], 4 * tempo)
 sp.play_sounds([B, Gm], 2 * tempo)
@@ -23,7 +21,7 @@ sp.play_sounds([A, C], 2 * tempo)
 sp.play_sounds([B, D], 2 * tempo)
 sp.play_sounds([E], 1 * tempo)
 sp.play_sounds([D], 1 * tempo)
-sp.play_sounds([A, C], 2 * tempo)
+sp.play_sounds([C, A], 2 * tempo)
 sp.play_sounds([B, Gm], 2 * tempo)
 sp.play_sounds([A, Em], 4 * tempo)
 sp.play_sounds([A, Em], 2 * tempo)

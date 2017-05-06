@@ -1,20 +1,20 @@
 #!/usr/bin/python3
 import soundPlayer as pysounds
 
-sp = pysounds.SoundPlayer(2)
-A = pysounds.SoundFactory.get_sine_sound(440, 0.1)
-B = pysounds.SoundFactory.get_sine_sound(493.88, 0.1)
-C = pysounds.SoundFactory.get_sine_sound(523.25, 0.1)
-D = pysounds.SoundFactory.get_sine_sound(587.33, 0.1)
-E = pysounds.SoundFactory.get_sine_sound(659.25, 0.1)
-F = pysounds.SoundFactory.get_sine_sound(698.46, 0.1)
-G = pysounds.SoundFactory.get_sine_sound(783.99, 0.1)
-Ab = pysounds.SoundFactory.get_sine_sound(830.61, 0.1)
-AM = pysounds.SoundFactory.get_sine_sound(880.00, 0.1)
-Gm = pysounds.SoundFactory.get_sine_sound(392.00, 0.1)
-Em = pysounds.SoundFactory.get_sine_sound(329.63, 0.1)
+dc = 0.80
 
-Drum = pysounds.SoundFactory.get_noise_sound(150, 0.1)
+sp = pysounds.SoundPlayer(2)
+A = pysounds.SoundFactory.get_square_sound(440, 0.1, dc)
+B = pysounds.SoundFactory.get_square_sound(493.88, 0.1, dc)
+C = pysounds.SoundFactory.get_square_sound(523.25, 0.1, dc)
+D = pysounds.SoundFactory.get_square_sound(587.33, 0.1, dc)
+E = pysounds.SoundFactory.get_square_sound(659.25, 0.1, dc)
+F = pysounds.SoundFactory.get_square_sound(698.46, 0.1, dc)
+G = pysounds.SoundFactory.get_square_sound(783.99, 0.1, dc)
+Ab = pysounds.SoundFactory.get_square_sound(830.61, 0.1, dc)
+AM = pysounds.SoundFactory.get_square_sound(880.00, 0.1, dc)
+Gm = pysounds.SoundFactory.get_square_sound(392.00, 0.1, dc)
+Em = pysounds.SoundFactory.get_square_sound(329.63, 0.1, dc)
 
 tempo = 0.1
 sp.play_sounds([E, B], 4 * tempo)
@@ -23,7 +23,7 @@ sp.play_sounds([A, C], 2 * tempo)
 sp.play_sounds([B, D], 2 * tempo)
 sp.play_sounds([E], 1 * tempo)
 sp.play_sounds([D], 1 * tempo)
-sp.play_sounds([A, C], 2 * tempo)
+sp.play_sounds([C, A], 2 * tempo)
 sp.play_sounds([B, Gm], 2 * tempo)
 sp.play_sounds([A, Em], 4 * tempo)
 sp.play_sounds([A, Em], 2 * tempo)

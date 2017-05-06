@@ -1,19 +1,19 @@
 import math
+import random
 from threading import Thread
 
 from pyaudio import *
 
-SPACING = 2  # Space between two sounds
+SPACING = 10  # Space between two sounds
 
 DEFAULT_WIDTH = 1  # 8bits
 SAMPLE_RATE = 22050
 
 
 class Sound(object):
-    def __init__(self, frequency, function, volume=0.2):
+    def __init__(self, frequency, wave_function):
         self.frequency = frequency
-        self.volume = volume
-        self.function = function
+        self.function = wave_function
 
     def _get_samples(self, duration=1):
         n_samples = int(SAMPLE_RATE * duration)
@@ -25,10 +25,43 @@ class Sound(object):
 
 class SoundFactory(object):
     @staticmethod
+    def square_wave(t, sample_rate, frequency, duty_cycle=0.5):
+        dt = ((t * frequency) % sample_rate) / sample_rate
+        if dt > duty_cycle:
+            return -1
+        return 1
+
+    @staticmethod
+    def triangular_wave(t, sample_rate, frequency):
+        dt = ((t * frequency) % sample_rate) / sample_rate
+        if dt <= 0.25:
+            return dt * 4
+
+        if 0.25 < dt <= 0.75:
+            return 1 - ((dt - 0.25) * 4)
+
+        return (dt - 0.75) * 4 - 1
+
+    @staticmethod
+    def get_square_sound(frequency, volume, duty_cycle=0.5):
+        return Sound(frequency,
+                     lambda t: volume * SoundFactory.square_wave(t, SAMPLE_RATE, frequency, duty_cycle))
+
+    @staticmethod
+    def get_triangular_sound(frequency, volume):
+        return Sound(frequency,
+                     lambda t: volume * SoundFactory.triangular_wave(t, SAMPLE_RATE, frequency))
+
+    @staticmethod
     def get_sine_sound(frequency, volume):
         return Sound(frequency,
-                     lambda t: volume * math.sin(2 * math.pi * frequency * t / SAMPLE_RATE),
-                     volume)
+                     lambda t: volume * math.sin(2 * math.pi * frequency * t / SAMPLE_RATE))
+
+    @staticmethod
+    def get_noise_sound(frequency, volume):
+        return Sound(frequency,
+                     lambda t: volume * random.choice([-1, 1]))
+
 
 class SoundPlayer(object):
     def __init__(self, number_of_channels, width=DEFAULT_WIDTH):
