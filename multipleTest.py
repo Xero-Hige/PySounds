@@ -13,8 +13,8 @@ Ab = pysounds.SoundFactory.get_square_sound(830.61, 0.1, 0.15)
 AM = pysounds.SoundFactory.get_square_sound(880.00, 0.1, 0.8)
 Gm = pysounds.SoundFactory.get_square_sound(392.00, 0.1, 0.8)
 Em = pysounds.SoundFactory.get_square_sound(329.63, 0.1, 0.8)
-
 Drum = pysounds.SoundFactory.get_noise_sound(150, 0.1)
+
 sp.play_sounds([Drum], 0.1)
 sp.play_sounds([E, B], 4 * 0.1)
 sp.play_sounds([Drum], 0.1)
@@ -46,7 +46,5 @@ sp.play_sounds([C, A], 4 * tempo)
 sp.play_sounds([A, Em], 4 * tempo)
 sp.play_sounds([A, Em], 4 * tempo)
 sp.play_sounds([A, Em], 4 * tempo)
-
-# sp.play_song([(sound_a, 0.6),(sound_b, 0.4),(sound_c, 0.9),(sound_a, 0.5),(sound_b, 0.4)])
 
 sp.close()

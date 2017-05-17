@@ -7,10 +7,7 @@ B = pysounds.SoundFactory.get_sine_sound(493.88, 0.1)
 C = pysounds.SoundFactory.get_sine_sound(523.25, 0.1)
 D = pysounds.SoundFactory.get_sine_sound(587.33, 0.1)
 E = pysounds.SoundFactory.get_sine_sound(659.25, 0.1)
-F = pysounds.SoundFactory.get_sine_sound(698.46, 0.1)
 G = pysounds.SoundFactory.get_sine_sound(783.99, 0.1)
-Ab = pysounds.SoundFactory.get_sine_sound(830.61, 0.1)
-AM = pysounds.SoundFactory.get_sine_sound(880.00, 0.1)
 Gm = pysounds.SoundFactory.get_sine_sound(392.00, 0.1)
 Em = pysounds.SoundFactory.get_sine_sound(329.63, 0.1)
 
@@ -39,7 +36,5 @@ sp.play_sounds([C, A], 4 * tempo)
 sp.play_sounds([A, Em], 4 * tempo)
 sp.play_sounds([A, Em], 4 * tempo)
 sp.play_sounds([A, Em], 4 * tempo)
-
-# sp.play_song([(sound_a, 0.6),(sound_b, 0.4),(sound_c, 0.9),(sound_a, 0.5),(sound_b, 0.4)])
 
 sp.close()
