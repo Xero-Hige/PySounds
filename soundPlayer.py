@@ -29,6 +29,8 @@ SAMPLE_RATE = 22050
 
 
 class Sound(object):
+    """Class that encapsulates the functions and generates the samples"""
+
     def __init__(self, frequency, wave_function):
         self.frequency = frequency
         self.function = wave_function
@@ -42,15 +44,17 @@ class Sound(object):
 
 
 class SoundFactory(object):
+    """Factory class that generates the different sounds instances"""
+
     @staticmethod
-    def square_wave(t, sample_rate, frequency, duty_cycle=0.5):
+    def __square_wave(t, sample_rate, frequency, duty_cycle=0.5):
         dt = ((t * frequency) % sample_rate) / sample_rate
         if dt > duty_cycle:
             return -1
         return 1
 
     @staticmethod
-    def triangular_wave(t, sample_rate, frequency):
+    def __triangular_wave(t, sample_rate, frequency):
         dt = ((t * frequency) % sample_rate) / sample_rate
         if dt <= 0.25:
             return dt * 4
@@ -63,12 +67,12 @@ class SoundFactory(object):
     @staticmethod
     def get_square_sound(frequency, volume, duty_cycle=0.5):
         return Sound(frequency,
-                     lambda t: volume * SoundFactory.square_wave(t, SAMPLE_RATE, frequency, duty_cycle))
+                     lambda t: volume * SoundFactory.__square_wave(t, SAMPLE_RATE, frequency, duty_cycle))
 
     @staticmethod
     def get_triangular_sound(frequency, volume):
         return Sound(frequency,
-                     lambda t: volume * SoundFactory.triangular_wave(t, SAMPLE_RATE, frequency))
+                     lambda t: volume * SoundFactory.__triangular_wave(t, SAMPLE_RATE, frequency))
 
     @staticmethod
     def get_sine_sound(frequency, volume):
@@ -87,6 +91,8 @@ class SoundFactory(object):
 
 
 class SoundPlayer(object):
+    """Class that encapsulates audio playback"""
+
     def __init__(self, number_of_channels, width=DEFAULT_WIDTH):
         p = PyAudio()
 
@@ -101,6 +107,8 @@ class SoundPlayer(object):
         return SAMPLE_RATE
 
     def play_sounds(self, sound_list, duration=1):
+        """Plays the sounds passed in the sound_list. If there are more
+            sounds than channels, the excedent sounds are not played."""
         if len(sound_list) > self.number_of_channels:
             print("[Warning] - More sounds than channels", file=sys.stderr, flush=True)
 
@@ -121,7 +129,7 @@ class SoundPlayer(object):
         for t in threads:
             t.join()
 
-    def play_song(self, sounds_list):
+    def __play_song(self, sounds_list):
         samples = [b'\x80' for _ in range(self.number_of_channels)]
         for time_slice in sounds_list:
             for i, sound in enumerate(time_slice[0]):
@@ -138,6 +146,8 @@ class SoundPlayer(object):
             t.join()
 
     def close(self):
+        """Closes the audio stream. After excecution of this method, the
+            player becomes unusable"""
         for stream in self.channels:
             stream.stop_stream()
             stream.close()
